@@ -1,37 +1,15 @@
-'use client'
+// app/success/page.tsx
+import { Suspense } from 'react';
+import SuccessContent from './success-content';
 
-import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+// 事前レンダリングを避ける（検索クエリ依存のため）
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-export default function SuccessPage() {
-  const searchParams = useSearchParams()
-  const plan = searchParams!.get("plan")
-  const [message, setMessage] = useState("")
-
-  useEffect(() => {
-    if (plan === "premium") {
-      setMessage("プレミアムプランにアップグレードされました。")
-    } else if (plan === "gold") {
-      setMessage("ゴールドプランにアップグレードされました。")
-    } else {
-      setMessage("ご利用ありがとうございます。")
-    }
-  }, [plan])
-
+export default function Page() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-2xl font-bold mb-4">🎉 ご登録ありがとうございます！</h1>
-        <p className="mb-6">{message}</p>
-
-        <Link
-          href="/"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          ホームに戻る
-        </Link>
-      </div>
-    </div>
-  )
+    <Suspense fallback={<div className="p-6 text-center">Loading...</div>}>
+      <SuccessContent />
+    </Suspense>
+  );
 }

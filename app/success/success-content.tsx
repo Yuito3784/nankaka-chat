@@ -1,23 +1,19 @@
+// app/success/success-content.tsx
 'use client';
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 export default function SuccessContent() {
   const searchParams = useSearchParams();
   const plan = searchParams?.get('plan');
-  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    if (plan === 'premium') {
-      setMessage('プレミアムプランにアップグレードされました。');
-    } else if (plan === 'gold') {
-      setMessage('ゴールドプランにアップグレードされました。');
-    } else {
-      setMessage('ご利用ありがとうございます。');
-    }
-  }, [plan]);
+  const message =
+    plan === 'premium'
+      ? 'プレミアムプランにアップグレードされました。'
+      : plan === 'gold'
+      ? 'ゴールドプランにアップグレードされました。'
+      : 'ご利用ありがとうございます。';
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
