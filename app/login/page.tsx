@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     if (res.ok) {
       setMessage('ログイン成功！')
-      router.push('/upgrade') // ログイン後のリダイレクト先
+      router.push('/') // ログイン後のリダイレクト先
     } else {
       const data = await res.json()
       setMessage(`ログイン失敗: ${data.error || '不明なエラー'}`)

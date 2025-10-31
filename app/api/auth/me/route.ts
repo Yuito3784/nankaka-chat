@@ -1,18 +1,17 @@
+// app/api/auth/me/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
 import { prisma } from '@/lib/prisma'
+import { getUserIdFromRequest } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
-  const token = req.cookies.get('token')?.value
-  if (!token) {
+  const userId = getUserIdFromRequest(req)
+  if (!userId) {
     return NextResponse.json({ user: null }, { status: 401 })
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string }
-
     const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
+      where: { id: userId },
       select: {
         email: true,
         subscriptionPlan: true,
@@ -27,15 +26,15 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ user })
   } catch (err) {
-    console.error('❌ JWTの検証に失敗:', err)
+    console.error('❌ /api/auth/me: ユーザー取得失敗:', err)
 
-    // 無効なトークンの場合、cookieを削除して返す（任意）
-    return new NextResponse(JSON.stringify({ user: null }), {
-      status: 401,
-      headers: {
-        'Set-Cookie': 'token=; Path=/; Max-Age=0;',
-        'Content-Type': 'application/json',
-      },
+    // 無効トークン時 → クッキー削除
+    const res = NextResponse.json({ user: null }, { status: 401 })
+    res.cookies.set('auth_token', '', {
+      httpOnly: true,
+      path: '/',
+      maxAge: 0,
     })
+    return res
   }
 }

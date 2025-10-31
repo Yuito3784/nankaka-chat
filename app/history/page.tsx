@@ -8,7 +8,7 @@ import HistoryDrawer from '@/components/HistoryDrawer'
 import { Trash2, Loader2 } from 'lucide-react'
 
 export default function HistoryPage() {
-  const { plan } = useUserInfo()
+  const { email, plan } = useUserInfo()
   const router = useRouter()
 
   const [histories, setHistories] = useState<HistoryItem[]>([])
@@ -16,6 +16,14 @@ export default function HistoryPage() {
   const [drawerItem, setDrawerItem] = useState<HistoryItem | null>(null)
   const [loading, setLoading] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
+
+  // 🔐 未ログインならログインへ（middlewareの保険・最小追記）
+  useEffect(() => {
+    if (email === undefined) return; // 取得前は待つ
+    if (!email) {
+      router.replace(`/login?next=${encodeURIComponent('/history')}`)
+    }
+  }, [email, router])
 
   // 仮データ取得（後にAPIに差し替え）
   useEffect(() => {

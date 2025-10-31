@@ -44,8 +44,7 @@ export default function Sidebar() {
           >
             <span className="mr-2">🩺</span>診断する
           </Link>
-          <nav className="flex flex-col space-y-2 text-sm">
-            {/* pathsありのfeaturesのみ表示 */}
+          {/* <nav className="flex flex-col space-y-2 text-sm">
             {features.filter(f => f.paths.length > 0).flatMap((f) =>
               f.paths.map((path) => {
                 const required = f.requiredPlan ? planPriority[f.requiredPlan] : 0
@@ -73,7 +72,6 @@ export default function Sidebar() {
               })
             )}
 
-            {/* その他固定ナビ */}
             <Link href="/settings" className="flex items-center px-3 py-2 rounded hover:text-blue-600 hover:bg-blue-50 transition">
               <span className="mr-2">⚙️</span>設定
             </Link>
@@ -83,7 +81,7 @@ export default function Sidebar() {
             <Link href="/help" className="flex items-center px-3 py-2 rounded hover:text-blue-600 hover:bg-blue-50 transition">
               <span className="mr-2">❓</span>ヘルプ
             </Link>
-          </nav>
+          </nav> */}
         </div>
 
         {email && (

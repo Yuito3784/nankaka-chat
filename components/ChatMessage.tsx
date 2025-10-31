@@ -23,14 +23,15 @@ export default function ChatMessage({ role, content }: Props) {
       {!isUser && (
         <div className="text-xs text-gray-500 mt-1 px-2 max-w-[75%]">
           🧾 <span className="text-gray-700 font-semibold">病院に行く前に、無料で医師に相談できます</span> 👉{" "}
-          <a
+          {/* <a
             href="https://px.a8.net/svt/ejp?a8mat=XXXXXXXXXX" // ←A8.netなどのアフィリエイトリンクに差し替え
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 underline"
           >
-            オンライン診療はこちら
-          </a>
+            オンライン診療はこちら、は本来ここに入る
+          </a> */}
+          オンライン診療はこちら
         </div>
       )}
     </div>

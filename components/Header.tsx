@@ -31,8 +31,7 @@ export default function Header() {
       </Link>
 
       {/* 右エリア */}
-      <div className="flex items-center space-x-4 text-sm">
-        {/* 🪙 プラン表示 → /upgrade へ遷移 */}
+      {/* <div className="flex items-center space-x-4 text-sm">
         <Link
           href="/upgrade"
           className={clsx(
@@ -63,7 +62,7 @@ export default function Header() {
             👤 マイページ
           </Link>
         )}
-      </div>
+      </div> */}
     </header>
   )
 }
