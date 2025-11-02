@@ -60,43 +60,57 @@ export default function Home() {
   }, [])
 
   return (
-    <>
-      <main className="flex-1 min-h-[calc(100vh-100px)] bg-gradient-to-br from-sky-100 via-white to-sky-50 p-4 flex justify-center items-center">
-        <div className="w-full max-w-2xl h-[90vh] rounded-3xl shadow-xl bg-white border border-gray-200 flex flex-col overflow-hidden">
-          <header className="bg-white border-b p-4 text-center text-xl font-semibold text-blue-600 shadow-sm">
-            🩺 診る科ナビ
-            <p className="text-[10px] text-gray-400 mt-1 text-center">
-              何科に行けばよいかわからないあなたの相談窓口
-            </p>
-          </header>
+    // 外枠：カードを画面高いっぱいに
+    <main className="flex-1 h-[calc(100dvh-4rem)] px-3 sm:px-4 flex justify-center">
+      <div className="w-full max-w-screen-sm md:max-w-2xl h-full
+                      rounded-none md:rounded-3xl shadow-none md:shadow-xl
+                      bg-white border border-gray-200 flex flex-col min-h-0">
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white">
-            {messages.map((msg, i) => (
-              <ChatMessage key={i} role={msg.role} content={msg.content} />
-            ))}
-            {isLoading && (
-              <div className="text-sm text-gray-400 text-center">診断中...</div>
-            )}
-            <div ref={bottomRef} />
-          </div>
+        <header className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b p-4
+                          text-center text-lg md:text-xl font-semibold text-blue-600 shadow-sm">
+          🩺 診る科ナビ
+          <p className="text-[11px] md:text-[10px] text-gray-400 mt-1">
+            何科に行けばよいかわからないあなたの相談窓口
+          </p>
+        </header>
 
-          <footer className="border-t p-3 bg-white">
-            <details ref={detailsRef} open>
-              <summary className="cursor-pointer text-sm text-blue-600 font-semibold mb-2">
-                症状を入力する
-              </summary>
+        <section className="bg-white px-4 py-2 border-b">
+          <details ref={detailsRef} open className="flex flex-col">
+            {/* 見出しは常に上に表示される */}
+            <summary className="sticky top-0 z-10 bg-white cursor-pointer
+                                text-sm text-blue-600 font-semibold py-2">
+              症状を入力する
+            </summary>
+
+            {/* ←ここが“内部スクロール”エリア */}
+            <div
+              className="mt-2 max-h-[60vh] overflow-y-auto overscroll-contain touch-pan-y pr-1"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
               <ChatBox
                 onSend={handleSend}
                 onCloseForm={handleCloseForm}
                 disabled={isLoading}
               />
-            </details>
-            <p className="text-[10px] text-gray-400 mt-1 text-center">
-              ※このサービスは医療行為ではありません。緊急時は病院へ。
-            </p>
-          </footer>
+            </div>
+          </details>
+        </section>
+
+        {/* メッセージ一覧（必要なら内部スクロールに切替可） */}
+        <div className="p-4 space-y-3 bg-white min-w-0">
+          {messages.map((msg, i) => (
+            <ChatMessage key={i} role={msg.role} content={msg.content} />
+          ))}
+          {isLoading && <div className="text-sm text-gray-400 text-center">診断中...</div>}
+          <div ref={bottomRef} />
         </div>
-      </main>
-    </>
+
+        <footer className="shrink-0 border-t p-3 bg-white">
+          <p className="text-[10px] text-gray-400 text-center">
+            ※このサービスは医療行為ではありません。緊急時は病院へ。
+          </p>
+        </footer>
+      </div>
+    </main>
   )
 }
